@@ -3,9 +3,16 @@ from .graph import Graph
 import random
 
 class AgentNetwork:
+	def __str__(self):
+		return (''+
+			'====== Adjacencies: ======\n'+
+			str(self._graph)+'\n'+ 
+			'========= Agents: ========\n'+
+			'\n'.join([str(agent) for agent in self.agents])
+		)
 	def __init__(self, agents: list[Agent], min_edge_coeff: float, max_edge_coeff: float):
 		self.agents = agents
-		max_edges = self.graph.max_edges()
+		max_edges = Graph.max_edges_for_n_nodes(len(agents))
 		target_edges = round(max_edges*random.uniform(min_edge_coeff, max_edge_coeff))
 
 		# construct a random graph with approximately target_edges
