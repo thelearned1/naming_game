@@ -10,6 +10,35 @@ class DirectedGraph(typing.Generic[T]):
 			node: set() for node in self.nodes
 		}
 
+	def __str__(self) -> str:
+		symbolic_table = list()
+		matrix = list()
+		num_nodes = self.num_nodes()
+		col_len = len(str(num_nodes))
+		fstr = '{'+f':^{col_len}'+'}'
+
+		header = ((' '*col_len)+' ')+' '.join(list(fstr.format(i) for i in range(num_nodes)))
+
+		for n1, i in zip(self.nodes, range(num_nodes)):
+			adjacencies = self.edges[n1]
+			ls = list()
+			symbolic_table.append((i, n1))
+			ls.append(fstr.format(i))
+			for n2 in self.nodes:
+				x = ''
+				if n1 == n2:
+					x = 'N'
+				elif n2 in adjacencies:
+					x = '1'
+				else:
+					x = '0'
+				ls.append(fstr.format(x))
+			matrix.append(' '.join(ls))
+
+		matrix = '\n'.join(matrix)
+		
+		return f'SYMBOLS: {symbolic_table}\n{header}\n{matrix}'	
+
 	def has_node(self, node: T):
 		return node in self.nodes
 
